@@ -18,7 +18,7 @@ class Am_Plugin_AutoRecurring extends Am_Plugin
    * @param  Am_Event $event return datetime
    * @return [type]          [description]
    */
-  public function onHourly(Am_Event $event)
+  public function onDaily(Am_Event $event)
   {
       $date = "2018-10-01";
       // get for rebill based on this day
