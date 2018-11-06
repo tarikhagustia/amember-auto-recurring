@@ -20,7 +20,7 @@ class Am_Plugin_AutoRecurring extends Am_Plugin
    */
   public function onDaily(Am_Event $event)
   {
-      $date = "2018-10-01";
+      $date = date('Y-m-d');
       // get for rebill based on this day
       $bills = $this->getDi()->invoiceTable->selectObjects("SELECT * FROM ?_invoice WHERE rebill_times > 0 AND DATE(tm_added) = ?", $date);
       foreach ($bills as $key => $bill) {
