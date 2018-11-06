@@ -1,4 +1,4 @@
-Plugin CMS Auto Installer, plugin untuk [Ciberindo](https://git.cms-network.com:1688/hendra/ciberindo)
+Plugin Auto creaet invoice, plugin untuk [Ciberindo](https://git.cms-network.com:1688/hendra/ciberindo)
 
 # Version
 - 2018-07-24 => ver 0.1
@@ -9,11 +9,6 @@ Plugin CMS Auto Installer, plugin untuk [Ciberindo](https://git.cms-network.com:
 
 # TODO
 - 2018-07-24
-    - ~~Buat logic nya di rubah, user sign up produk -> save database -> baru execute create secara background (dgn detail dr database)~~
-    - Buat Control panel user untuk manage script nya via panel amember
-    - Buat Dynamic CMSApp nya.. agar dapat ditambahkan manual via panel Admin
-    - Auto update CMSAPP dari setiap repository git masing2
-    - Logic Update CMSApp di setiap client bagi yang membutuhkan
 
 
 # Tambahan Install
@@ -41,8 +36,4 @@ sehingga pada .htaccess nya menjadi
 
 # ChangeLog
 - 2018-07-24
-	- asdf
-	- asdf
-	- asdf
-
 - 2018-07-24
