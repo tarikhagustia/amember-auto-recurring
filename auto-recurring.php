@@ -8,7 +8,7 @@
  */
 class Am_Plugin_AutoRecurring extends Am_Plugin
 {
-  const PLUGIN_STATUS = self::STATUS_DEV;
+  const PLUGIN_STATUS = self::STATUS_PRODUCTION;
   const PLUGIN_REVISION = '0.1';
   const ADMIN_PERM_ID = 'auto-recurring';
 
@@ -22,7 +22,7 @@ class Am_Plugin_AutoRecurring extends Am_Plugin
   {
       $date = date('Y-m-d');
       // get for rebill based on this day
-      $bills = $this->getDi()->invoiceTable->selectObjects("SELECT * FROM ?_invoice WHERE rebill_times > 0 AND DATE(tm_added) = ?", $date);
+      $bills = $this->getDi()->invoiceTable->findForRebill($date);
       foreach ($bills as $key => $bill) {
           // Create invoice
           $invoice = $this->getDi()->invoiceRecord;
@@ -40,14 +40,15 @@ class Am_Plugin_AutoRecurring extends Am_Plugin
 
           if (!$errors) {
               // Error happend
-              $this->getDi()->adminLogTable->log("Add recurring invoice failed errors {$errors}", 'invoice');
+              $this->getDi()->adminLogTable->log("AUTO RECURRING : Add recurring invoice failed errors {$errors}", 'invoice');
               // $event->addReturn("Gw Dipanggil !");
           }
           $invoice->calculate();
           $invoice = $invoice->save();
 
-          $this->getDi()->adminLogTable->log("Add recurring success", 'invoice');
+          $this->getDi()->adminLogTable->log("AUTO RECURRING : Add recurring success", 'invoice');
       }
+      $this->getDi()->adminLogTable->log("AUTO RECURRING : Rebill not found for " . $date, 'invoice');
       $event->addReturn(true);
   }
 }
