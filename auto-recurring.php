@@ -35,7 +35,7 @@ class Am_Plugin_AutoRecurring extends Am_Plugin
           $rebill_date = new DateTime($date);
           $rebill_date = $rebill_date->add(new DateInterval("P1M"))->format('Y-m-d');
           $invoice->rebill_date = $rebill_date;
-          $invoice->setPaysystem($bill->paysys_id);
+          // $invoice->setPaysystem($bill->paysys_id);
           $errors = $invoice->validate();
 
           if (!$errors) {
@@ -46,9 +46,27 @@ class Am_Plugin_AutoRecurring extends Am_Plugin
           $invoice->calculate();
           $invoice = $invoice->save();
 
+          // TODO: Send Email
+          $et = Am_Mail_Template::load('invoice_pay_link', $invoice->getUser()->lang ? $invoice->getUser()->lang : null);
+          $et->setUser($invoice->getUser());
+          $et->setUrl($this->getDi()->surl("pay/{$invoice->getSecureId('payment-link')}", false));
+          // $et->setMessage($vars['message']);
+          $et->setInvoice($invoice);
+          $et->setInvoice_text($invoice->render());
+          $et->setInvoice_html($invoice->renderHtml());
+          $et->setProduct_title(implode(", ", array_map(
+              function ($item){
+                  return $item->title;
+              },
+              $invoice->getProducts()
+                  )));
+          $et->send($invoice->getUser());
+
           $this->getDi()->adminLogTable->log("AUTO RECURRING : Add recurring success", 'invoice');
       }
-      $this->getDi()->adminLogTable->log("AUTO RECURRING : Rebill not found for " . $date, 'invoice');
+      if (!count($bills) > 0) {
+        $this->getDi()->adminLogTable->log("AUTO RECURRING : Rebill not found for " . $date, 'invoice');
+      }
       $event->addReturn(true);
   }
 }
