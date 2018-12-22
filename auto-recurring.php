@@ -35,7 +35,7 @@ class Am_Plugin_AutoRecurring extends Am_Plugin
           $rebill_date = new DateTime($date);
           $rebill_date = $rebill_date->add(new DateInterval("P1M"))->format('Y-m-d');
           $invoice->rebill_date = $rebill_date;
-          // $invoice->setPaysystem($bill->paysys_id);
+          $invoice->setPaysystem($bill->paysys_id);
           $errors = $invoice->validate();
 
           if (!$errors) {
