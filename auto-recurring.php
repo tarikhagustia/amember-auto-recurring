@@ -44,6 +44,8 @@ class Am_Plugin_AutoRecurring extends Am_Plugin
                 // $event->addReturn("Gw Dipanggil !");
             }
             $invoice->calculate();
+            $invoice->first_total = $bill->second_total;
+            $invoice->second_total = $invoice->first_total;
             $invoice = $invoice->save();
 
             // TODO: Send Email
