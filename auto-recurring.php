@@ -46,7 +46,15 @@ class Am_Plugin_AutoRecurring extends Am_Plugin
             $invoice->calculate();
             $invoice->first_total = $bill->second_total;
             $invoice->second_total = $invoice->first_total;
+            $invoice->first_subtotal = $bill->second_subtotal;
             $invoice = $invoice->save();
+
+            foreach ($invoice->getItems() as $item) {
+                $item->first_total = $item->second_total;
+                $item->first_price = $item->second_price;
+                $item->second_total = $item->first_total;
+                $item->save();
+            }
 
             // TODO: Send Email
             $et = Am_Mail_Template::load('invoice_pay_link', $invoice->getUser()->lang ? $invoice->getUser()->lang : null);
